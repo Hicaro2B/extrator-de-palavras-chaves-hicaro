@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+:root {
+  --cor-primaria: #0D47A1;   /* Azul escuro */
+  --cor-secundaria: #1E88E5; /* Azul médio */
+  --cor-destaque: #64B5F6;   /* Azul claro */
+  --cor-fundo: linear-gradient(135deg, #0A0A0A, #121212, #1A1A2E);
+  --cor-card: #1F1F2E;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: var(--cor-fundo);
+  height: 100vh;
+  color: #fff;
+}
+
+.container {
+  background: #0F0F1A;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+  width: 100%;
+  max-width: 65rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.8rem;
+}
+
+h1 {
+  color: var(--cor-destaque);
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 1.5px;
+}
+
+#entrada-de-texto {
+  width: 100%;
+  height: 10rem;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-size: 1.2rem;
+  resize: none;
+  border: none;
+  outline: none;
+  background: var(--cor-card);
+  color: #fff;
+}
+
+#entrada-de-texto::placeholder {
+  color: #999;
+}
+
+#botao-palavrachave {
+  padding: 1rem 2.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: var(--cor-secundaria);
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+#botao-palavrachave:hover {
+  background: var(--cor-primaria);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(30,136,229,0.5);
+}
+
+#resultado-palavrachave {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
+/* Cada palavra-chave em formato card */
+#resultado-palavrachave p {
+  background: var(--cor-card);
+  padding: 0.6rem 1rem;
+  border-radius: 0.4rem;
+  color: var(--cor-destaque);
+  font-weight: 600;
+  font-size: 1.1rem;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+/* Scroll customizado */
+#resultado-palavrachave::-webkit-scrollbar {
+  width: 8px;
+}
+#resultado-palavrachave::-webkit-scrollbar-thumb {
+  background: var(--cor-secundaria);
+  border-radius: 4px;
+}
