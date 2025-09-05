@@ -4,175 +4,145 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Extrator de Palavras-Chave</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 
-/* Paleta masculina moderna */
 :root {
   --cor-primaria: #0D47A1;
   --cor-secundaria: #1E88E5;
   --cor-destaque: #64B5F6;
-  --cor-card: rgba(30,30,50,0.85);
+  --cor-card: rgba(15,15,26,0.85);
 }
 
 body {
-  margin:0;
-  padding:0;
+  margin:0; padding:0;
   font-family:'Montserrat',sans-serif;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
   color:#fff;
   overflow:hidden;
   position:relative;
-  background: url('https://images.unsplash.com/photo-1517511620798-cec17d428bc0?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+  background: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
 }
 
-/* Canvas para partículas */
-#particulas {
+/* Overlay escuro para contraste */
+body::before {
+  content:'';
   position:absolute;
-  top:0; left:0;
-  width:100%;
-  height:100%;
+  top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.6);
   z-index:0;
 }
 
-/* Container */
+/* Partículas animadas */
+#particulas {
+  position:absolute;
+  top:0; left:0; width:100%; height:100%;
+  z-index:0;
+}
+
 .container {
   position:relative;
   z-index:1;
-  background: rgba(15,15,26,0.95);
-  padding:2rem;
-  border-radius:1rem;
-  box-shadow:0 10px 25px rgba(0,0,0,0.7);
-  width:100%;
   max-width:65rem;
+  margin:2rem auto;
   display:flex;
   flex-direction:column;
-  align-items:center;
   gap:1.5rem;
 }
 
-#topo {
-  width:100%;
-  text-align:center;
-  color: var(--cor-destaque);
-  font-size:1.5rem;
-  font-weight:600;
+.card {
+  background: var(--cor-card);
+  padding:1.5rem;
+  border-radius:1rem;
+  box-shadow:0 10px 25px rgba(0,0,0,0.6);
 }
-
-h1 {
+.card h2 {
   color: var(--cor-destaque);
-  font-size:2.5rem;
-  font-weight:700;
-  text-align:center;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  margin-bottom:0.8rem;
 }
-
 textarea {
   width:100%;
-  height:10rem;
+  height:8rem;
   border-radius:0.75rem;
-  padding:1rem 1.5rem;
-  font-size:1.2rem;
-  resize:none;
+  padding:1rem;
   border:none;
   outline:none;
   background: rgba(40,40,60,0.85);
   color:#fff;
-  box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
-  transition:0.3s;
+  resize:none;
 }
-
-textarea:focus {
-  box-shadow: inset 0 2px 12px var(--cor-secundaria);
-}
-
-textarea::placeholder {
-  color:#999;
-}
-
 button {
-  padding:1rem 2.5rem;
-  border-radius:0.6rem;
+  margin-top:1rem;
+  padding:0.8rem 2rem;
   border:none;
+  border-radius:0.6rem;
   background: var(--cor-secundaria);
   color:#fff;
-  font-size:1.3rem;
   font-weight:600;
   cursor:pointer;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 4px 10px rgba(30,136,229,0.4);
+  transition: all 0.3s;
 }
-
 button:hover {
   background: var(--cor-primaria);
   transform: translateY(-2px);
-  box-shadow:0 6px 15px rgba(30,136,229,0.6);
 }
-
-#resultado {
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  gap:1rem;
+.chip {
+  display:inline-block;
+  padding:0.4rem 0.8rem;
+  margin:0.3rem;
+  border-radius:0.6rem;
+  background: var(--cor-secundaria);
+  cursor:pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-
-#resumo,#palavras-chaves {
-  background: var(--cor-card);
-  padding:1rem 1.5rem;
-  border-radius:0.75rem;
-  box-shadow:0 4px 15px rgba(0,0,0,0.5);
-}
-
-#resumo h2,#palavras-chaves h2 {
-  margin-bottom:0.5rem;
-  color: var(--cor-destaque);
-  font-size:1.3rem;
-}
-
-#resumo p,#palavras-chaves p {
-  margin-bottom:0.4rem;
-  font-weight:500;
-  font-size:1.1rem;
-  color:#fff;
-  cursor:default;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-#palavras-chaves p:hover {
-  transform: translateY(-3px) scale(1.02);
+.chip:hover {
+  transform: translateY(-2px) scale(1.05);
   box-shadow:0 4px 12px rgba(30,136,229,0.7);
 }
+#resumo { line-height:1.5rem; margin-top:0.5rem; }
+footer { text-align:center; margin-top:1.5rem; color: var(--cor-destaque); font-size:0.9rem; }
 
-canvas {
-  margin-top:1rem;
-  width:100% !important;
-  max-height:250px;
-  border-radius:0.75rem;
-  background: rgba(30,30,50,0.9);
-}
-
-footer {
-  text-align:center;
-  margin-top:1.5rem;
-  color:#64B5F6;
-  font-size:0.9rem;
-}
+/* Modal */
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:10; }
+.modal-content { background: var(--cor-card); padding:2rem; border-radius:1rem; max-width: 25rem; text-align:center; box-shadow: 0 8px 25px rgba(0,0,0,0.8); }
+.modal-content h3 { margin-bottom:1rem; color: var(--cor-destaque); }
+.close-btn { position:absolute; top:0.5rem; right:1rem; cursor:pointer; font-weight:bold; font-size:1.2rem; color:#fff; }
 </style>
 </head>
 <body>
+
 <canvas id="particulas"></canvas>
+
 <div class="container">
-  <div id="topo">Hicaro - 2° Ano B</div>
-  <h1>Extrator de Palavras-Chave</h1>
-  <textarea id="entrada-de-texto" placeholder="Digite ou cole seu texto aqui..."></textarea>
-  <button id="botao-palavrachave">Extrair</button>
-  <div id="resultado"></div>
-  <canvas id="grafico" height="200"></canvas>
-  <footer>&copy; 2025 Hicaro Valdeir Fontes Munhoz. Todos os direitos reservados.</footer>
+
+  <div class="card">
+    <h2>✍️ Inserir Texto</h2>
+    <textarea id="entrada"></textarea>
+    <button id="btn">Extrair</button>
+  </div>
+
+  <div class="card">
+    <h2>🧠 Resumo</h2>
+    <p id="resumo">O resumo aparecerá aqui...</p>
+  </div>
+
+  <div class="card">
+    <h2>🔑 Palavras-chave</h2>
+    <div id="palavras"></div>
+  </div>
+
+  <div class="card">
+    <h2>💻 Autor</h2>
+    <p>Desenvolvido por <strong>Hicaro Valdeir Fontes Munhoz</strong> – 2º Ano B</p>
+  </div>
+
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <span class="close-btn" id="close">&times;</span>
+    <h3 id="palavra-modal">Palavra</h3>
+    <p id="significado-modal">Significado...</p>
+  </div>
 </div>
 
 <script>
@@ -198,8 +168,7 @@ function animar(){
     ctxP.arc(p.x,p.y,p.r,0,Math.PI*2);
     ctxP.fillStyle='rgba(100,181,246,0.7)';
     ctxP.fill();
-    p.x+=p.dx;
-    p.y+=p.dy;
+    p.x+=p.dx; p.y+=p.dy;
     if(p.x>canvasP.width)p.x=0;
     if(p.x<0)p.x=canvasP.width;
     if(p.y>canvasP.height)p.y=0;
@@ -210,45 +179,41 @@ function animar(){
 animar();
 window.addEventListener('resize',()=>{canvasP.width=window.innerWidth; canvasP.height=window.innerHeight;});
 
-// Stopwords
-const PALAVRAS_RUINS = new Set([
-"que","para","com","não","uma","por","mais","dos","como","mas","foi","ele","das","tem","seu","sua","ser","quando","muito","está","também","pelo","pela","até","isso","ela","entre","era","depois","sem","mesmo","aos","ter","seus","quem","nas","esse","eles","estão","você","tinha","foram","essa","num","nem","suas","meu","minha","têm","numa","pelos","elas","havia","seja","qual","será","nós","tenho","lhe","deles","essas","esses","pelas","este","fosse","dele","vocês","vos","lhes","meus","minhas","teu","tua","teus","tuas","nosso","nossa","nossos","nossas","dela","delas","esta","estes","estas","aquele","aquela","aqueles","aquelas","isto","aquilo","estou","estamos","estive","esteve","estivemos","estiveram","estava","estávamos","estavam","e","ou","onde","embora","apesar","porque","enquanto","contudo","entretanto","portanto","além","antes","todavia","inclusive","diante","sobre","quanto","apenas","desde","uma vez","segundo","junto"
-]);
+// Dicionário local
+const DICIONARIO = {
+  "clima":"Conjunto de condições atmosféricas médias de uma região.",
+  "mercado":"Espaço onde ocorre compra e venda de bens ou serviços.",
+  "tecnologia":"Aplicação de conhecimentos científicos para fins práticos.",
+  "educacao":"Processo de ensino e aprendizagem.",
+  "programacao":"Ação de escrever códigos para criar softwares.",
+  "internet":"Rede mundial de computadores interligados.",
+  "software":"Conjunto de instruções que permitem executar tarefas em computadores."
+};
+const STOPWORDS = new Set(["que","para","com","não","uma","por","mais","dos","como","mas","foi","ele","das","tem","seu","sua","ser","quando","muito","está","também"]);
 
-const botao = document.querySelector('#botao-palavrachave');
-const resultado = document.querySelector('#resultado');
-const ctx = document.getElementById('grafico').getContext('2d');
-let grafico;
+const btn = document.getElementById('btn');
+const entrada = document.getElementById('entrada');
+const resumoEl = document.getElementById('resumo');
+const palavrasEl = document.getElementById('palavras');
+const modal = document.getElementById('modal');
+const closeModal = document.getElementById('close');
+const palavraModal = document.getElementById('palavra-modal');
+const significadoModal = document.getElementById('significado-modal');
 
-botao.addEventListener('click',()=>{
-  const texto = document.querySelector('#entrada-de-texto').value;
-  const palavrasChave = processaTexto(texto);
-  if(!palavrasChave.length){
-    resultado.innerHTML="<p>Nenhuma palavra-chave encontrada.</p>";
-    if(grafico) grafico.destroy();
-    return;
-  }
-  const resumo = gerarResumo(texto,palavrasChave,3);
-  resultado.innerHTML=`
-  <div id="resumo"><h2>Resumo:</h2><p>${resumo}</p></div>
-  <div id="palavras-chaves"><h2>Palavras-chave:</h2>${palavrasChave.map((p,i)=>`<p><strong>${i+1}.</strong> ${p.palavra} (${p.frequencia}x)</p>`).join('')}</div>
-  `;
-  atualizarGrafico(palavrasChave);
-});
+closeModal.onclick = ()=> modal.style.display='none';
+window.onclick = e=>{ if(e.target==modal) modal.style.display='none'; }
 
-function normalizar(p){
-  return p.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
-}
+function normalizar(p){ return p.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase(); }
 
 function processaTexto(texto){
   let palavras = texto.split(/\P{L}+/u).map(normalizar).filter(p=>p.length>2);
-  palavras = palavras.filter(p=>!PALAVRAS_RUINS.has(p));
-  const freq = palavras.reduce((acc,p)=>{acc[p]=(acc[p]||0)+1;return acc;},{});
+  palavras = palavras.filter(p=>!STOPWORDS.has(p));
+  const freq = palavras.reduce((acc,p)=>{ acc[p]=(acc[p]||0)+1; return acc; },{});
   return Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,10)
          .map(([palavra,freq])=>({palavra,frequencia:freq}));
 }
 
-function gerarResumo(texto,palavrasChave,maxFrases=3){
+function gerarResumo(texto, palavrasChave){
   const frases = texto.match(/[^.!?]+[.!?]?/g)||[];
   const pontuacao = frases.map(f=>{
     let score=0;
@@ -256,20 +221,38 @@ function gerarResumo(texto,palavrasChave,maxFrases=3){
     for(let pk of palavrasChave.map(p=>p.palavra)) if(words.includes(pk)) score++;
     return {frase:f.trim(), score};
   });
-  pontuacao.sort((a,b)=>b.score-a.score);
-  return pontuacao.slice(0,maxFrases).map(f=>f.frase).join(' ');
+  pontuacao.sort((a,b)=>b.score-b.score);
+  const max = Math.min(3,pontuacao.length);
+  return pontuacao.slice(0,max).map(f=>f.frase).join(' ');
 }
 
-function atualizarGrafico(palavras){
-  const labels = palavras.map(p=>p.palavra);
-  const valores = palavras.map(p=>p.frequencia);
-  if(grafico) grafico.destroy();
-  grafico = new Chart(ctx,{
-    type:'bar',
-    data:{labels, datasets:[{label:'Frequência',data:valores, backgroundColor:'#1E88E5', borderRadius:6}]},
-    options:{responsive:true, plugins:{legend:{display:false}}, scales:{x:{ticks:{color:"#fff"}},y:{ticks:{color:"#fff", stepSize:1}}}}
+function criarChips(palavras){
+  palavrasEl.innerHTML='';
+  palavras.forEach(p=>{
+    const chip = document.createElement('span');
+    chip.className='chip';
+    chip.textContent=`${p.palavra} (${p.frequencia}x)`;
+    chip.onclick=()=>{
+      palavraModal.textContent=p.palavra;
+      significadoModal.textContent=DICIONARIO[p.palavra]||"Definição não encontrada.";
+      modal.style.display='flex';
+    };
+    palavrasEl.appendChild(chip);
   });
 }
+
+btn.onclick=()=>{
+  const texto = entrada.value.trim();
+  if(!texto){
+    resumoEl.textContent="Digite algum texto.";
+    palavrasEl.innerHTML="";
+    return;
+  }
+  const palavrasChave=processaTexto(texto);
+  resumoEl.textContent=gerarResumo(texto,palavrasChave);
+  criarChips(palavrasChave);
+};
 </script>
+
 </body>
 </html>
