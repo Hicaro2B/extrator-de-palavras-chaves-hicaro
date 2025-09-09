@@ -20,19 +20,37 @@ body {
   color:#fff;
   overflow:hidden;
   position:relative;
-  background: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+  background: url('https://images.unsplash.com/photo-1581091215367-59ab6f622f9d?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
 }
 
-/* Overlay escuro para contraste */
-body::before {
-  content:'';
-  position:absolute;
-  top:0; left:0; width:100%; height:100%;
-  background: rgba(0,0,0,0.6);
-  z-index:0;
+/* Overlay escuro */
+body {
+  margin:0; padding:0;
+  font-family:'Montserrat',sans-serif;
+  color:#fff;
+  overflow:hidden;
+  position:relative;
+  background: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
 }
 
-/* Partículas animadas */
+
+/* Header fixo */
+header {
+  position:fixed;
+  top:0; left:0; width:100%;
+  background: var(--cor-card);
+  padding:0.8rem 2rem;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:1rem;
+  color: var(--cor-destaque);
+  font-weight:600;
+  z-index:2;
+  box-shadow:0 4px 12px rgba(0,0,0,0.6);
+}
+
+/* Partículas */
 #particulas {
   position:absolute;
   top:0; left:0; width:100%; height:100%;
@@ -43,7 +61,7 @@ body::before {
   position:relative;
   z-index:1;
   max-width:65rem;
-  margin:2rem auto;
+  margin:6rem auto 2rem auto; /* espaço por causa do header */
   display:flex;
   flex-direction:column;
   gap:1.5rem;
@@ -99,7 +117,6 @@ button:hover {
   box-shadow:0 4px 12px rgba(30,136,229,0.7);
 }
 #resumo { line-height:1.5rem; margin-top:0.5rem; }
-footer { text-align:center; margin-top:1.5rem; color: var(--cor-destaque); font-size:0.9rem; }
 
 /* Modal */
 .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:10; }
@@ -109,6 +126,10 @@ footer { text-align:center; margin-top:1.5rem; color: var(--cor-destaque); font-
 </style>
 </head>
 <body>
+
+<header>
+  💻 Desenvolvido por <strong>&nbsp;Hicaro Valdeir Fontes Munhoz – 2º Ano B</strong>
+</header>
 
 <canvas id="particulas"></canvas>
 
@@ -130,11 +151,6 @@ footer { text-align:center; margin-top:1.5rem; color: var(--cor-destaque); font-
     <div id="palavras"></div>
   </div>
 
-  <div class="card">
-    <h2>💻 Autor</h2>
-    <p>Desenvolvido por <strong>Hicaro Valdeir Fontes Munhoz</strong> – 2º Ano B</p>
-  </div>
-
 </div>
 
 <div class="modal" id="modal">
@@ -146,7 +162,7 @@ footer { text-align:center; margin-top:1.5rem; color: var(--cor-destaque); font-
 </div>
 
 <script>
-// Partículas animadas
+/* Partículas animadas */
 const canvasP = document.getElementById('particulas');
 const ctxP = canvasP.getContext('2d');
 canvasP.width = window.innerWidth;
@@ -179,7 +195,7 @@ function animar(){
 animar();
 window.addEventListener('resize',()=>{canvasP.width=window.innerWidth; canvasP.height=window.innerHeight;});
 
-// Dicionário local
+/* Dicionário local */
 const DICIONARIO = {
   "clima":"Conjunto de condições atmosféricas médias de uma região.",
   "mercado":"Espaço onde ocorre compra e venda de bens ou serviços.",
