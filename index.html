@@ -20,26 +20,19 @@ body {
   color:#fff;
   overflow:hidden;
   position:relative;
-  background: url('https://images.unsplash.com/photo-1581091215367-59ab6f622f9d?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
-}
-
-/* Overlay escuro */
-body {
-  margin:0; padding:0;
-  font-family:'Montserrat',sans-serif;
-  color:#fff;
-  overflow:hidden;
-  position:relative;
   background: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
 }
 
+body::before {
+  content:''; position:absolute; top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.6);
+  z-index:0;
+}
 
-/* Header fixo */
 header {
-  position:fixed;
-  top:0; left:0; width:100%;
+  position:fixed; top:0; left:0; width:100%;
   background: var(--cor-card);
-  padding:0.8rem 2rem;
+  padding:1rem 2rem;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -50,18 +43,15 @@ header {
   box-shadow:0 4px 12px rgba(0,0,0,0.6);
 }
 
-/* Partículas */
 #particulas {
-  position:absolute;
-  top:0; left:0; width:100%; height:100%;
+  position:absolute; top:0; left:0; width:100%; height:100%;
   z-index:0;
 }
 
 .container {
-  position:relative;
-  z-index:1;
+  position:relative; z-index:1;
   max-width:65rem;
-  margin:6rem auto 2rem auto; /* espaço por causa do header */
+  margin:9rem auto 2rem auto;
   display:flex;
   flex-direction:column;
   gap:1.5rem;
@@ -69,28 +59,37 @@ header {
 
 .card {
   background: var(--cor-card);
-  padding:1.5rem;
+  padding:2rem;
   border-radius:1rem;
   box-shadow:0 10px 25px rgba(0,0,0,0.6);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:1rem;
 }
+
 .card h2 {
   color: var(--cor-destaque);
-  margin-bottom:0.8rem;
+  margin-bottom:0.5rem;
 }
+
 textarea {
-  width:100%;
-  height:8rem;
-  border-radius:0.75rem;
-  padding:1rem;
-  border:none;
-  outline:none;
+  width: 100%;
+  height: 8rem;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  border: none;
+  outline: none;
   background: rgba(40,40,60,0.85);
-  color:#fff;
-  resize:none;
+  color: #fff;
+  resize: none;
+  box-sizing: border-box;
 }
+
 button {
-  margin-top:1rem;
-  padding:0.8rem 2rem;
+  width: 100%;
+  max-width: 15rem;
+  padding:0.8rem 1rem;
   border:none;
   border-radius:0.6rem;
   background: var(--cor-secundaria);
@@ -99,28 +98,38 @@ button {
   cursor:pointer;
   transition: all 0.3s;
 }
+
 button:hover {
   background: var(--cor-primaria);
   transform: translateY(-2px);
 }
+
+#palavras {
+  width:100%;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:0.5rem;
+}
+
 .chip {
   display:inline-block;
   padding:0.4rem 0.8rem;
-  margin:0.3rem;
   border-radius:0.6rem;
   background: var(--cor-secundaria);
   cursor:pointer;
   transition: transform 0.2s, box-shadow 0.2s;
 }
+
 .chip:hover {
   transform: translateY(-2px) scale(1.05);
   box-shadow:0 4px 12px rgba(30,136,229,0.7);
 }
-#resumo { line-height:1.5rem; margin-top:0.5rem; }
 
-/* Modal */
+#resumo { line-height:1.5rem; margin-top:0.5rem; text-align:center; }
+
 .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:10; }
-.modal-content { background: var(--cor-card); padding:2rem; border-radius:1rem; max-width: 25rem; text-align:center; box-shadow: 0 8px 25px rgba(0,0,0,0.8); }
+.modal-content { background: var(--cor-card); padding:2rem; border-radius:1rem; max-width:25rem; text-align:center; box-shadow:0 8px 25px rgba(0,0,0,0.8); }
 .modal-content h3 { margin-bottom:1rem; color: var(--cor-destaque); }
 .close-btn { position:absolute; top:0.5rem; right:1rem; cursor:pointer; font-weight:bold; font-size:1.2rem; color:#fff; }
 </style>
@@ -162,20 +171,13 @@ button:hover {
 </div>
 
 <script>
-/* Partículas animadas */
 const canvasP = document.getElementById('particulas');
 const ctxP = canvasP.getContext('2d');
 canvasP.width = window.innerWidth;
 canvasP.height = window.innerHeight;
 const particulas = [];
 for(let i=0;i<120;i++){
-  particulas.push({
-    x:Math.random()*canvasP.width,
-    y:Math.random()*canvasP.height,
-    r:Math.random()*2+1,
-    dx:(Math.random()-0.5)*0.5,
-    dy:(Math.random()-0.5)*0.5
-  });
+  particulas.push({x:Math.random()*canvasP.width,y:Math.random()*canvasP.height,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.5,dy:(Math.random()-0.5)*0.5});
 }
 function animar(){
   ctxP.clearRect(0,0,canvasP.width,canvasP.height);
@@ -195,7 +197,6 @@ function animar(){
 animar();
 window.addEventListener('resize',()=>{canvasP.width=window.innerWidth; canvasP.height=window.innerHeight;});
 
-/* Dicionário local */
 const DICIONARIO = {
   "clima":"Conjunto de condições atmosféricas médias de uma região.",
   "mercado":"Espaço onde ocorre compra e venda de bens ou serviços.",
@@ -248,22 +249,14 @@ function criarChips(palavras){
     const chip = document.createElement('span');
     chip.className='chip';
     chip.textContent=`${p.palavra} (${p.frequencia}x)`;
-    chip.onclick=()=>{
-      palavraModal.textContent=p.palavra;
-      significadoModal.textContent=DICIONARIO[p.palavra]||"Definição não encontrada.";
-      modal.style.display='flex';
-    };
+    chip.onclick=()=>{palavraModal.textContent=p.palavra; significadoModal.textContent=DICIONARIO[p.palavra]||"Definição não encontrada."; modal.style.display='flex';};
     palavrasEl.appendChild(chip);
   });
 }
 
 btn.onclick=()=>{
   const texto = entrada.value.trim();
-  if(!texto){
-    resumoEl.textContent="Digite algum texto.";
-    palavrasEl.innerHTML="";
-    return;
-  }
+  if(!texto){ resumoEl.textContent="Digite algum texto."; palavrasEl.innerHTML=""; return; }
   const palavrasChave=processaTexto(texto);
   resumoEl.textContent=gerarResumo(texto,palavrasChave);
   criarChips(palavrasChave);
