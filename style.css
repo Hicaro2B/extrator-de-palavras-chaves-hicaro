@@ -1,23 +1,36 @@
-/* Certifica que o container centralize corretamente */
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* centraliza horizontalmente */
-    justify-content: center; /* centraliza verticalmente se necessário */
-    width: 75%; /* ou largura máxima que você deseja */
-    padding: 20px; /* espaçamento interno */
-    box-sizing: border-box;
+textarea {
+  width: 100%;
+  height: 8rem;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  border: 2px solid rgba(255,255,255,0.2);
+  outline: none;
+  background: rgba(40,40,60,0.85);
+  color: #fff;
+  resize: none;
+  box-sizing: border-box;
+  transition: border 0.3s, box-shadow 0.3s;
 }
 
-/* Caixa de texto */
-textarea {
-    width: 100%; /* ocupa toda a largura do container */
-    max-width: 700px; /* opcional, limita a largura */
-    padding: 15px;
-    border-radius: 10px;
-    border: none;
-    background-color: rgba(0,0,0,0.6); /* mantém transparência */
-    color: #fff;
-    font-size: 16px;
-    resize: vertical; /* permite apenas ajustar altura */
+textarea:focus {
+  border-color: var(--cor-secundaria);
+  box-shadow: 0 0 10px rgba(30,136,229,0.6);
+}
+button {
+  width: 100%;
+  max-width: 15rem;
+  padding:0.8rem 1rem;
+  border:none;
+  border-radius:0.6rem;
+  background: var(--cor-secundaria);
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  transition: all 0.3s, box-shadow 0.3s;
+}
+
+button:hover {
+  background: var(--cor-primaria);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30,136,229,0.7);
 }
